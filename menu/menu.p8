@@ -14,6 +14,8 @@ function _init()
 	  {name="settings"},
 	 }
 	}
+	
+--	m.trail={1,1}
 end
 
 function pop(stack)
@@ -23,11 +25,10 @@ function pop(stack)
 end
 
 function _update()
- if btnp(⬇️) then
-  m:traverse(3)
- elseif btnp(⬆️) then
-  m:traverse(2)
- end
+ if btnp(⬅️) then m:traverse(⬅️) end
+ if btnp(➡️) then m:traverse(➡️) end
+ if btnp(⬆️) then m:traverse(⬆️) end
+ if btnp(⬇️) then m:traverse(⬇️) end
 end
 
 function draw_menu(m)
@@ -60,11 +61,14 @@ end
 
 function menu:get_item(trail)
  local t=trail or self.trail
- local i=self.items[t[1]]
+-- print("t is of length " .. #t)
+ local i=self.items[t[#t]]
+
+ --return if last item in trail
  if (#t==1) then
   return i
  else
-  return get_item(i,pop(t))
+  return self:get_item(pop(t), i)
  end
 end
 
@@ -72,10 +76,12 @@ function menu:traverse(d)
  if (d==⬆️) then
   --return if at start of list
   if (self.trail[1]==1) return
+  
   self.trail[#self.trail]-=1
  elseif (d==⬇️) then
   --return if at end of list
   if (self.trail[1]==#self.items) return
+  
   self.trail[#self.trail]+=1
 	end
 
