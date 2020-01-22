@@ -33,12 +33,11 @@ end
 function draw_menu(m)
  if (m.changed==false) return
  m.changed=false
- print("menu state changed")
+ print("░░░░░")
  for i in all(m.items) do
-  print(i.name)
-  if (i==m.selected) then print("*") end
+  local function foo() if (i==m:get_item()) return ">" else return " " end
+  print(foo() .. i.name)
  end
- print("selected " .. m:get_item().name)
 end
 
 function _draw()
@@ -70,14 +69,17 @@ function menu:get_item(trail)
 end
 
 function menu:traverse(d)
- if (d==⬇️) then
-  self.trail[#m.trail]+=1
-  self.changed=true
- end
  if (d==⬆️) then
-  self.trail[#m.trail]-=1
-  self.changed=true
- end
+  --return if at start of list
+  if (self.trail[1]==1) return
+  self.trail[#self.trail]-=1
+ elseif (d==⬇️) then
+  --return if at end of list
+  if (self.trail[1]==#self.items) return
+  self.trail[#self.trail]+=1
+	end
+
+	self.changed=true
 end
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
