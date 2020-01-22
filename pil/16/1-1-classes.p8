@@ -1,0 +1,64 @@
+pico-8 cartridge // http://www.pico-8.com
+version 18
+__lua__
+function _init()
+ --when creating account a in
+ --this way, a will have
+ --account as its metatable.
+ a=account:new{balance = 0}
+ 
+ --here we are actually calling
+ --a.deposit. however, lua can
+ --not find the "deposit" entry
+ --in table a; so it looks into
+ --the metatable's "__index"
+ --entry.
+ a:deposit(100)
+end
+
+
+function _update()
+ if btnp(❎) then
+  printh("balance: " .. a.balance)
+	elseif btnp(⬆️) then
+	 a.deposit(a,10)
+  printh("new balance: " .. a.balance)
+ elseif btnp(⬇️) then
+  a.withdraw(a,10)
+  printh("new balance: " .. a.balance)
+ end
+end
+
+function _draw()
+end
+
+-->8
+account = {balance = 0}
+
+function account:withdraw(v)
+ self.balance = self.balance-v
+end
+
+function account:deposit(v)
+ self.balance = self.balance+v
+end
+
+--when we call this operation,
+--self is equal to account.
+function account:new(o)
+ o=o or {} --create if null
+ setmetatable(o, self)
+ self.__index=self
+ return o
+end
+
+
+__gfx__
+000000000a0000a000cccc00880000880e0000e00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000a000000a0cccccc00888888000eeee000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00700700a0aaaa0acccccccc080000800eeeeee00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+000770000a0aa0a0cc0cc0cc08088080ee0ee0ee0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+000770000aa00aa00cccccc008000080eee00eee0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0070070000aaaa0000cccc00088888800ee00ee00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+000000000aa00aa00cccccc008088080e0e00e0e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000a0a00a0acc0cc0cc00800800e000000e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
