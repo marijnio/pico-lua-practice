@@ -1,42 +1,19 @@
 pico-8 cartridge // http://www.pico-8.com
 version 18
 __lua__
-m={}
-
 function _init()
- m.items={
-  {name="work", items={
-   {name="contract"},
-   {name="match"},
-   },
-  },
-  {name="staff"},
-  {name="shop"},
-  {name="settings"},
- }
- m.changed=true
- m.trail={1}
-end
-
-function m:get_item(trail)
- local t=trail or m.trail
- local i=m.items[t[1]]
- if (#t==1) then
-  return i
- else
-  return get_item(i,pop(t))
- end
-end
-
-function m.traverse(d)
- if (d==⬇️) then
-  m.trail[#m.trail]+=1
-  m.changed=true
- end
- if (d==⬆️) then
-  m.trail[#m.trail]-=1
-  m.changed=true
- end
+ m = menu:new{
+	 items={
+	  {name="work", items={
+	   {name="contract"},
+	   {name="match"},
+	   },
+	  },
+	  {name="staff"},
+	  {name="shop"},
+	  {name="settings"},
+	 }
+	}
 end
 
 function pop(stack)
@@ -47,9 +24,9 @@ end
 
 function _update()
  if btnp(⬇️) then
-  m.traverse(3)
+  m:traverse(3)
  elseif btnp(⬆️) then
-  m.traverse(2)
+  m:traverse(2)
  end
 end
 
@@ -61,11 +38,46 @@ function draw_menu(m)
   print(i.name)
   if (i==m.selected) then print("*") end
  end
- print("selected " .. m.get_item().name)
+ print("selected " .. m:get_item().name)
 end
 
 function _draw()
  draw_menu(m)
+end
+-->8
+--menu system
+
+menu={changed=true,
+      trail={1},
+      items={},
+     }
+
+function menu:new(o)
+ o = o or {}
+ setmetatable(o, self)
+ self.__index = self
+ return o
+end
+
+function menu:get_item(trail)
+ local t=trail or self.trail
+ local i=self.items[t[1]]
+ if (#t==1) then
+  return i
+ else
+  return get_item(i,pop(t))
+ end
+end
+
+function menu:traverse(d)
+ if (d==⬇️) then
+  self.trail[#m.trail]+=1
+  self.changed=true
+ end
+ if (d==⬆️) then
+  self.trail[#m.trail]-=1
+  self.changed=true
+ end
 end
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
