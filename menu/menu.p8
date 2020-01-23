@@ -15,7 +15,9 @@ function _init()
 	 }
 	}
 	
---	m.trail={1,1}
+	m.trail={1,1}
+	print(m:get_item(m.trail,m.items).name)
+	stop()
 end
 
 function pop(stack)
@@ -59,16 +61,24 @@ function menu:new(o)
  return o
 end
 
-function menu:get_item(trail)
- local t=trail or self.trail
--- print("t is of length " .. #t)
- local i=self.items[t[#t]]
-
+function menu:get_item(trail, items)
+ local t=trail
+ print("getting item...")
+ print("t is of type " .. type(t))
  --return if last item in trail
- if (#t==1) then
+ if (#t==0) then
+  print("picked " .. i.name)
   return i
  else
-  return self:get_item(pop(t), i)
+  print("t is of length " .. #t)
+  --unpack first item in list
+  print("first item in t is " .. type(t[1]))
+  --get item on first layer
+  i=items[t[1]]
+  print("picked " .. i.name)
+  --get next item recursively
+  pop(t)
+  return self:get_item(t, i.items)
  end
 end
 
