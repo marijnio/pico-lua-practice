@@ -1,16 +1,18 @@
 pico-8 cartridge // http://www.pico-8.com
 version 18
 __lua__
---this is a numeric for
---for var=exp1,exp2,exp3 do
- --something
---end
+exp1,exp2,exp3 = 1,1,1
+--this is a numeric for:
+for var=exp1,exp2,exp3 do
+ --do something
+end
 
---it will do something,
---for each value of "var",
---from exp1,
---to exp2,
---using exp3 as step. (optional)
+--it will do something...
+--for each value of var...
+--from exp1...
+--to exp2...
+--using exp3 as a step.
+--this is (optional)
 
 --example
 function f(x) return x*x end
@@ -21,6 +23,7 @@ for i=1,f(x) do print(i) end
 for i=10,1,-1 do print(i) end
 
 fun=i --probably wrong!
+-- it's out of scope.
 assert(fun==nil)
 
 --if you need the value of the

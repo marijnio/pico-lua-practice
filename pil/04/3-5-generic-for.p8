@@ -10,7 +10,8 @@ a={apple="red",banana="yellow",
    orange="orange"}
 
 --print all values of array `a'
-for i,v in pairs(a) do print(v) end
+for i,v in pairs(a)
+ do print(v) end
 --for each step, i gets an
 --index while v gets the value
 --from that index.
@@ -20,7 +21,8 @@ print("…………")
 --a similar example shows how
 --we traverse all keys of a
 --table.
-for k in pairs(a) do print(k) end
+for k in pairs(a)
+ do print(k) end
 
 print("…………")
 
@@ -69,7 +71,7 @@ print(revdays[x])
 --and v the value ("sunday",
 --"monday", ...).
 
-function _init() end
+function _init() stop() end
 function _update() end
 function _draw() end
 __gfx__
